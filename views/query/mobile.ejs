@@ -5,8 +5,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <script type="text/javascript"
+  src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+  </script>
 </head>
 <body>
-hello
+  What language do u think it is
+  <input type="text" name='lang' class='lang'>
+  What do you want to translate it to
+  <input type="text" name='langTrans' class='langTrans'>
+
+<input type="file" id="imageLoader" name="imageLoader"/>
+<canvas id="imageCanvas"></canvas>
+<button id="startButton">Submit</button>
+<script>
+var imageLoader = document.getElementById('imageLoader');
+    imageLoader.addEventListener('change', handleImage, false);
+var canvas = document.getElementById('imageCanvas');
+var ctx = canvas.getContext('2d');
+
+
+function handleImage(e){
+    var reader = new FileReader();
+    reader.onload = function(event){
+        var img = new Image();
+        img.onload = function(){
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img,0,0);
+        }
+        img.src = event.target.result;
+    }
+    reader.readAsDataURL(e.target.files[0]);
+}
+
+document.getElementById("startButton").addEventListener("click", function() {
+  console.log('start button')
+  var dataURL = canvas.toDataURL();
+  console.log('data url', dataURL)
+  makeblob = function (dataURL) {
+    var BASE64_MARKER = ';base64,';
+    if (dataURL.indexOf(BASE64_MARKER) == -1) {
+      var parts = dataURL.split(',');
+      var contentType = parts[0].split(':')[1];
+      var raw = decodeURIComponent(parts[1]);
+      return new Blob([raw], {
+          type: contentType
+      });
+    }
+    var parts = dataURL.split(BASE64_MARKER);
+    var contentType = parts[0].split(':')[1];
+    var raw = window.atob(parts[1]);
+    var rawLength = raw.length;
+
+    var uInt8Array = new Uint8Array(rawLength);
+
+    for (var i = 0; i < rawLength; ++i) {
+      uInt8Array[i] = raw.charCodeAt(i);
+    }
+
+    return new Blob([uInt8Array], {
+      type: contentType
+    });
+  }
+//   var audio = document.getElementById('myAudioElement') || new Audio();
+// audio.src = 'https://api.voicerss.org/?key=f4b8cbcf08304aeeb2dc6ff5f527e4f5&hl=en-us&src=Hello,world!';
+
+   form = new FormData(),
+   request = new XMLHttpRequest();
+   var fileOfBlob = new File([makeblob(dataURL)], 'aFileName.json');
+   var lang = $('.lang').val()
+   var langTrans = $('.langTrans').val()
+   console.log(lang)
+   form.append("myFile", fileOfBlob);
+   form.append("lang", lang);
+   form.append('langTrans', langTrans)
+   request.open(
+     "POST",
+     "/query/",
+     true
+   );
+   request.send(form);
+  });
+ </script>
 </body>
 </html>

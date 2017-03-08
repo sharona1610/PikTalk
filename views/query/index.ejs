@@ -11,7 +11,7 @@
 
 </head>
 <body>
-    <input type="file" accept="image/*;capture=camera">
+
   What language do u think it is
   <input type="text" class='lang'>
   What do you want to translate it to
@@ -23,88 +23,76 @@
   </div>
   <canvas id="canvas">
  </canvas>
- <div class="output">
-   <img id="photo" alt="The screen capture will appear in this box.">
- </div>
- <div id='text'></div>
- <div id='translate'></div>
+<audio id="myAudioElement" />
 <script>
+  var video = document.getElementById('video');
+// Get access to the camera!
+  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      // Not adding `{ audio: true }` since we only want video now
+    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+      video.src = window.URL.createObjectURL(stream);
+      video.play();
+    });
+  }
+
+  var canvas = document.getElementById('canvas');
+  var context = canvas.getContext('2d');
+  var video = document.getElementById('video');
+  w=video.width;
+  h= video.height
+  console.log(w)
+  console.log(h)
+
+    // Trigger photo take
+  document.getElementById("startbutton").addEventListener("click", function() {
+  	context.drawImage(video,0,0,canvas.width, canvas.height);
+    var dataURL = canvas.toDataURL();
+    makeblob = function (dataURL) {
+      var BASE64_MARKER = ';base64,';
+      if (dataURL.indexOf(BASE64_MARKER) == -1) {
+        var parts = dataURL.split(',');
+        var contentType = parts[0].split(':')[1];
+        var raw = decodeURIComponent(parts[1]);
+        return new Blob([raw], {
+            type: contentType
+        });
+      }
+      var parts = dataURL.split(BASE64_MARKER);
+      var contentType = parts[0].split(':')[1];
+      var raw = window.atob(parts[1]);
+      var rawLength = raw.length;
+
+      var uInt8Array = new Uint8Array(rawLength);
+
+      for (var i = 0; i < rawLength; ++i) {
+        uInt8Array[i] = raw.charCodeAt(i);
+      }
+
+      return new Blob([uInt8Array], {
+        type: contentType
+      });
+    }
+    var audio = document.getElementById('myAudioElement') || new Audio();
+audio.src = 'https://api.voicerss.org/?key=f4b8cbcf08304aeeb2dc6ff5f527e4f5&hl=en-us&src=Hello,world!';
+
+     form = new FormData(),
+     request = new XMLHttpRequest();
+     var fileOfBlob = new File([makeblob(dataURL)], 'aFileName.json');
+     var lang = $('.lang').val()
+     var langTrans = $('.langTrans').val()
+     console.log(lang)
+     form.append("myFile", fileOfBlob);
+     form.append("lang", lang);
+     form.append('langTrans', langTrans)
+     request.open(
+       "POST",
+       "/query/",
+       true
+     );
+     request.send(form);
+    });
 
 
-          var video = document.getElementById('video');
-
-          // Get access to the camera!
-          if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                // Not adding `{ audio: true }` since we only want video now
-                navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-                      video.src = window.URL.createObjectURL(stream);
-                      video.play();
-                  });
-              }
-
-              var canvas = document.getElementById('canvas');
-              var context = canvas.getContext('2d');
-              var video = document.getElementById('video');
-              w=video.width;
-              h= video.height
-              console.log(w)
-              console.log(h)
-
-              // Trigger photo take
-              document.getElementById("startbutton").addEventListener("click", function() {
-                w=video.videoWidth;
-                h= video.videoHeight
-                console.log(w)
-                console.log(h)
-                	context.drawImage(video,0,0,canvas.width, canvas.height);
-                  var dataURL = canvas.toDataURL();
-                  makeblob = function (dataURL) {
-                    var BASE64_MARKER = ';base64,';
-                    if (dataURL.indexOf(BASE64_MARKER) == -1) {
-                        var parts = dataURL.split(',');
-                        var contentType = parts[0].split(':')[1];
-                        var raw = decodeURIComponent(parts[1]);
-                        return new Blob([raw], {
-                            type: contentType
-                        });
-                    }
-                    var parts = dataURL.split(BASE64_MARKER);
-                    var contentType = parts[0].split(':')[1];
-                    var raw = window.atob(parts[1]);
-                    var rawLength = raw.length;
-
-                    var uInt8Array = new Uint8Array(rawLength);
-
-                    for (var i = 0; i < rawLength; ++i) {
-                        uInt8Array[i] = raw.charCodeAt(i);
-                    }
-
-                    return new Blob([uInt8Array], {
-                        type: contentType
-                    });
-                }
-
-   form = new FormData(),
-   request = new XMLHttpRequest();
-   var fileOfBlob = new File([makeblob(dataURL)], 'aFileName.json');
-   var lang = $('.lang').val()
-   var langTrans = $('.langTrans').val()
-   console.log(lang)
-   form.append("myFile", fileOfBlob);
-   form.append("lang", lang);
-   form.append('langTrans', langTrans)
-   request.open(
-     "POST",
-     "/query/",
-     true
-   );
-   request.send(form);
-
-
-
-                  });
-
-
-                </script>
-              </body>
-              </html>
+    </script>
+  </body>
+</html>

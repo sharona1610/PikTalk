@@ -11,12 +11,17 @@
 </head>
 <body>
   Preview image
-  <img src='#' />
+
+  <img class="img" />
 
   Identified text
-  <div></div>
+  <div><%=model.textDetect %></div>
 
   Translated text
-  <div></div>
+  <div><%= model.textTranslate %></div>
+  <script>
+  var source = <%= model.imageUrl %>
+  $('.img').attr('src', source)
+  </script>
 </body>
 </html>
