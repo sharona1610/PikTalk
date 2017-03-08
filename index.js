@@ -16,8 +16,8 @@ require('dotenv').config({ silent: true })
 var cloudinary = require('cloudinary');
 cloudinary.config({
   cloud_name: 'sharona',
-  api_key: '167699946475855',
-  api_secret: 'XY0Lh7dcv4-SriKu8Rauh52Q1eE'
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
 });
 
 
