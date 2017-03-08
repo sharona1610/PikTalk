@@ -8,9 +8,25 @@ var isLoggedIn = require('../middleware/isLoggedIn');
 var multer = require('multer');
 var upload = multer({ dest: './uploads/' });
 var Model = require('../models/model')
+var MobileDetect = require('mobile-detect')
+
 
 router.get('/', isLoggedIn, function(req,res){
-  res.render('query/index')
+  // if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+  //   res.render('query/mobile')
+  // }
+  // else{
+  //   res.render('query/index')
+  // }
+  var md = new MobileDetect(req.headers['user-agent']);
+  console.log(md.mobile())
+  if(md.mobile()!==null){
+    res.render('query/mobile')
+  }
+  else{
+    console.log('here');
+    res.render('query/index');
+  }
 })
 router.post('/', isLoggedIn, upload.single('myFile'), function(req, res){
   console.log('req is', req.file)
