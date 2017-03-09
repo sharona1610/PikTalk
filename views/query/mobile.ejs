@@ -9,15 +9,24 @@
   src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
   </script>
 </head>
-<body>
+<body class='cont'>
   What language do u think it is
-  <input type="text" name='lang' class='lang'>
+  <select class="lang" name="lang">
+    <% language.forEach(function(elem){%>
+      <option name='langDetect' value='<%=elem.code%>'><%=elem.langName%></option>
+    <%})%>
+  </select>
   What do you want to translate it to
-  <input type="text" name='langTrans' class='langTrans'>
+  <select class="langTrans" name="langTrans">
+    <% language.forEach(function(elem){%>
+      <option name='langTrans' value='<%=elem.code%>'><%=elem.langName%></option>
+    <%})%>
+  </select>
 
-<input type="file" id="imageLoader" name="imageLoader"/>
+<input type="file" id="imageLoader" name="imageLoader" accept="image/*" capture='camera'/>
 <canvas id="imageCanvas"></canvas>
 <button id="startButton">Submit</button>
+
 <script>
 var imageLoader = document.getElementById('imageLoader');
     imageLoader.addEventListener('change', handleImage, false);
@@ -40,9 +49,7 @@ function handleImage(e){
 }
 
 document.getElementById("startButton").addEventListener("click", function() {
-  console.log('start button')
   var dataURL = canvas.toDataURL();
-  console.log('data url', dataURL)
   makeblob = function (dataURL) {
     var BASE64_MARKER = ';base64,';
     if (dataURL.indexOf(BASE64_MARKER) == -1) {
@@ -73,10 +80,21 @@ document.getElementById("startButton").addEventListener("click", function() {
 
    form = new FormData(),
    request = new XMLHttpRequest();
+   request.onload = function(e) {
+     var obj = request.response;
+     var param = {id: obj}
+     $.ajax({
+       url: '/query/result',
+       data: param,
+       type: 'GET',
+       success: function(data){
+         $('.cont').html(data)
+       }
+     })
+   }
    var fileOfBlob = new File([makeblob(dataURL)], 'aFileName.json');
    var lang = $('.lang').val()
    var langTrans = $('.langTrans').val()
-   console.log(lang)
    form.append("myFile", fileOfBlob);
    form.append("lang", lang);
    form.append('langTrans', langTrans)
