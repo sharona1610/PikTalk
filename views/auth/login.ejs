@@ -4,25 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-  <link rel='stylesheet' href='/style.css' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
+  <script type="text/javascript"
+  src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+  </script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
   <title>Login</title>
 </head>
 <body>
+
+  <nav>
+    <div class="nav-wrapper">
+      <a href="/auth/signup" class="right">Signup</a>
+    </div>
+  </nav>
 <div class="contain">
+<form class='form-group signup' action="/auth/login" method="POST">
+  <div class=''>
+    <label class="label" for="authEmail">Email</label>
+    <input id="authEmail" class="" type="email" name="email">
+
+    <label class="label" for="authPassword">Password</label>
+    <input id="authPassword" class="" type="password" name="password">
 
 
-<form action="/auth/login" method="POST">
-  <div class="row">
-    <label class="col s2 m6 offset-m3" for="authEmail">Email</label>
-    <input id="authEmail" class="col s2 m6 offset-m3" type="email" name="email">
-
-    <label class="col s2 m6 offset-m3" for="authPassword">Password</label>
-    <input id="authPassword" class="col s2 m6 offset-m3" type="password" name="password">
-
-
-  <input class="red lighten-2 waves-effect waves-light col s2 m6 offset-m3 btn" type="submit">
+  <input class="btn" type="submit">
   </div>
 </form>
 </div>

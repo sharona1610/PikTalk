@@ -62,7 +62,7 @@ app.use(function(req, res, next) {
 
 
 app.get('/', function(req, res) {
-  res.render('auth/login');
+  res.redirect('auth/login');
 });
 app.get('/query/', isLoggedIn, function(req,res){
   Language.find({}, function(err, lang){
@@ -73,7 +73,7 @@ app.get('/query/', isLoggedIn, function(req,res){
     // }
     // else{
     //   console.log('here');
-    //   res.render('query/index', {language: lang});
+      // res.render('query/index', {language: lang});
     // }
   })
 })

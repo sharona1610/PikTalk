@@ -5,26 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
   <script type="text/javascript"
   src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
   </script>
-
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 </head>
-<body>
+<body class='cont'>
+  <div class="input-group formPos">
+  <label>What language do u think it is</label>
+  <div class='input-field lang'><select class="lang" name="lang">
+    <% language.forEach(function(elem){%>
+      <option class='lang' name='langDetect' value='<%=elem.code%>'><%=elem.langName%></option>
+    <%})%>
+  </select></div><br  />
+  <label>What do you want to translate it to</label>
+  <select class="langTrans" name="langTrans">
+    <% language.forEach(function(elem){%>
+      <option name='langTrans' value='<%=elem.code%>'><%=elem.langName%></option>
+    <%})%>
+  </select>
 
-  What language do u think it is
-  <input type="text" class='lang'>
-  What do you want to translate it to
-  <input type="text" class='langTrans'>
-
-  <div class="camera">
+    <div class="camera">
     <video id="video">Video stream not available.</video>
-    <button id="startbutton">Take photo</button>
+    <button id="startbutton" class='btn'>Take photo</button>
   </div>
-  <canvas id="canvas">
- </canvas>
+  <div class='thumbnail canvas embed-responsive embed-responsive-16by9'>
+    <canvas id="canvas" class='embed-responsive-item'>
+ </canvas></div>
 <audio id="myAudioElement" />
 <script>
+
+$(document).ready(function() {
+  console.log("entered")
+  $('select').material_select(); //for Materialize-css framework - to load the dropdown menu
+
+});
+
   var video = document.getElementById('video');
 // Get access to the camera!
   if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -77,6 +99,18 @@ audio.src = 'https://api.voicerss.org/?key=f4b8cbcf08304aeeb2dc6ff5f527e4f5&hl=e
 
      form = new FormData(),
      request = new XMLHttpRequest();
+     request.onload = function(e) {
+       var obj = request.response;
+       var param = {id: obj}
+       $.ajax({
+         url: '/query/result',
+         data: param,
+         type: 'GET',
+         success: function(data){
+           $('.cont').html(data)
+         }
+       })
+     }
      var fileOfBlob = new File([makeblob(dataURL)], 'aFileName.json');
      var lang = $('.lang').val()
      var langTrans = $('.langTrans').val()

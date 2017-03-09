@@ -1,0 +1,49 @@
+.canvas{
+  margin: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+body{
+  font-family: 'Josefin Sans', sans-serif;
+  margin: 10%;
+  background: url('https://s-media-cache-ak0.pinimg.com/originals/8c/2d/95/8c2d9546628996ba1c5f7bd62bfc9e4b.jpg');
+  background-size: cover;
+  background-repeat: repeat-y;
+  background-position: center center;
+}
+.caret {
+  border-color: transparent !important;
+}
+.formPos{
+  width: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.3);
+}
+.btnPos{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 10px;
+}
+label{
+  font-weight: bolder;
+  color: black;
+}
+.progress{
+  display: none;
+}
+table{
+  background: rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  width: 85vw;
+  color: white;
+  font-size: 1.2em;
+}
+.signup{
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  font-size: 1.02em;
+  padding: 20px;
+}
