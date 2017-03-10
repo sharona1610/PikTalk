@@ -146,6 +146,15 @@ app.get('/query/result/', function(req, res){
   })
 })
 
+app.get('/query/index', isLoggedIn, function(req,res){
+  Model.find({uer_id: req.user._id}, function(err, model){
+    if(err) console.log(err);
+    if(model.length>0){
+      res.render('query/result', {model: model})
+    }
+})
+})
+
 app.use('/auth', require('./controllers/auth'));
 
 var server = app.listen(process.env.PORT || 3000);

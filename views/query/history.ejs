@@ -4,58 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
   <link rel="stylesheet" href="index.css">
-  <title>Document</title>
-
   <script type="text/javascript"
   src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
   </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
-  <!-- <script src="http://materializecss.com/bin/materialize.js" /> -->
 </head>
 <body>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="/query/" class="center">New Translation</a>
-      <a href="/query/index" class="center">View History</a>
-    </div>
-  </nav>
-  <table>
-    <thead>
-      <tr>
-        <th> Detected Text </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th><%=model.textDetect %></th>
-      </tr>
-    </tbody>
-  </table>
-  <table>
-    <thead>
-      <tr>
-        <th> Translated Text </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <th><%=model.textTranslate %></th>
-      </tr>
-    </tbody>
-  </table>
 
-  <script>
-  var source = '<%= model.imageUrl %>'
-  $('.img').attr('src', source)
-  var textDetect = <%= model.textDetect %>
-  console.log(textDetect)
-  responsiveVoice.speak(textDetect);
-  </script>
+<% if(model.length>0){
+<div class="row">
+
+    <% console.log('Stop val is ', stopVal)
+    for(var i=0;i<model.length;i++){ %>
+  <ul>
+      <div class="card hoverable col s3 offset-s1">
+
+
+      <div class="card-title white-text red lighten-2">Detected Text : <%=model[i].textDetect %></div>
+
+      <div class="card-content">Translated Text <%=model[i].textTranslate %></div>
+
+      </div>
+      <% } %>
+    </ul>
+
+<%}%>
+</div>
+
 </body>
 </html>

@@ -48,3 +48,11 @@ table{
   color: white;
   font-size: 1.5em;
 }
+.center{
+  color: white;
+  padding: 10px;
+
+}
+nav{
+  background: rgba(0, 0, 0, 0.3);
+}
