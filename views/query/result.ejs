@@ -21,10 +21,19 @@
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="/query/" class="center">New Translation</a>
-      <a href="/query/index" class="center">View History</a>
+      <a href="/query/" class="right">New Translation</a>
+      <a href="/query/history" class="right">View History</a>
     </div>
   </nav>
+  <div class='contain'>
+    <div class="">
+      <div class="center">
+        <% var temp = model.imageUrl
+        var str = temp.slice(7)
+        str= 'http://localhost:3000'+str %>
+        <img class='responsive-img' src="<%=str%>" >
+      </div>
+    </div>
   <table>
     <thead>
       <tr>
@@ -49,13 +58,10 @@
       </tr>
     </tbody>
   </table>
-
-  <script>
-  var source = '<%= model.imageUrl %>'
-  $('.img').attr('src', source)
-  var textDetect = <%= model.textDetect %>
-  console.log(textDetect)
-  responsiveVoice.speak(textDetect);
-  </script>
+</div>
+<% var hello = model.textDetect
+var code = model.ttsCode
+var source = 'http://api.voicerss.org/?key=f4b8cbcf08304aeeb2dc6ff5f527e4f5&hl='+code+'&src='+hello%>
+  <video controls='true' src='<%=source%>' type='audio/*'></video>
 </body>
 </html>

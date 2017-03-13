@@ -17,19 +17,27 @@
   <script src="http://code.responsivevoice.org/responsivevoice.js"></script>
 </head>
 <body>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="/query/" class="right">New Translation</a>
+      <a href="/query/history" class="right">View History</a>
+    </div>
+  </nav>
+<% if(model.length>0){%>
+<div class="pos">
 
-<% if(model.length>0){
-<div class="row">
-
-    <% console.log('Stop val is ', stopVal)
-    for(var i=0;i<model.length;i++){ %>
+    <% for(var i=0; i<model.length; i++){ %>
   <ul>
-      <div class="card hoverable col s3 offset-s1">
-
-
-      <div class="card-title white-text red lighten-2">Detected Text : <%=model[i].textDetect %></div>
-
-      <div class="card-content">Translated Text <%=model[i].textTranslate %></div>
+      <div class="card hoverable width">
+<% var temp = model[i].imageUrl
+var str = temp.slice(7)
+str= 'http://localhost:3000'+str %>
+<div class='card-image'>
+  <img class="" src="<%=str%>" alt="My_Logo"></div>
+      <div class="card-content">
+        <strong>Detected Text :</strong> <%=model[i].textDetect %><br />
+      <strong>Translated Text </strong><%=model[i].textTranslate %>
+    </div>
 
       </div>
       <% } %>

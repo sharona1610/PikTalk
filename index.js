@@ -22,7 +22,7 @@ var isLoggedIn = require('./middleware/isLoggedIn');
 var multer = require('multer');
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads/')
+    cb(null, './views/images/')
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '.jpg') //Appending .jpg
@@ -104,7 +104,7 @@ app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
         "languageHints": [req.body.lang]
       }
     }
-    var temp = './uploads/'+req.file.filename
+    var temp = './views/images/'+req.file.filename
     console.log(temp);
     visionClient.detectText(temp).then((results) => {
       const detections = results[0]
@@ -113,19 +113,26 @@ app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
       translateClient.translate(detections, req.body.langTrans, function(err, translation) {
         if (!err) {
           console.log('translated is ', translation);
-          Model.create({
-            imageUrl: temp,
-            textDetect: detections,
-            textTranslate: translation,
-            user_id: req.user._id}, function(err, model){
-                if(err) {
-                  console.log(err);
-                  return
-                }
-                  console.log('model is ', model);
-                  res.send(model._id)
+          Language.find({code: req.body.langTrans}, function(err, lang){
+            if(!err){
+              console.log(lang)
+              Model.create({
+              imageUrl: temp,
+              ttsCode: lang.ttsCode,
+              textDetect: detections[0],
+              textTranslate: translation[0],
+              user_id: req.user._id}, function(err, model){
+                  if(err) {
+                    console.log(err);
+                    return
+                  }
+                    console.log('model is ', model);
+                    res.send(model._id)
 
-              })
+                })
+              }
+          })
+
         }
         else {
           console.log(err);
@@ -146,11 +153,11 @@ app.get('/query/result/', function(req, res){
   })
 })
 
-app.get('/query/index', isLoggedIn, function(req,res){
-  Model.find({uer_id: req.user._id}, function(err, model){
+app.get('/query/history', isLoggedIn, function(req,res){
+  Model.find({user_id: req.user._id}, function(err, model){
     if(err) console.log(err);
     if(model.length>0){
-      res.render('query/result', {model: model})
+      res.render('query/history', {model: model})
     }
 })
 })

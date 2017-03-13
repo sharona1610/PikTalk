@@ -20,37 +20,41 @@
 <body class='cont'>
   <nav>
     <div class="nav-wrapper">
-      <a href="/query/index" class="right">View History</a>
-      <a href="/query/index" class="right">Home</a>
+      <a href="/query/history" class="right">View History</a>
+      <a href="/query/" class="right">Home</a>
     </div>
   </nav>
   <div class='contain'>
-    
+
   <div class="input-group form-group formPos">
-  <label>What language do u think it is</label>
-  <select class="lang form-control" name="lang">
+    <label>What language do u think it is</label>
+    <select class="lang form-control" name="lang">
     <% language.forEach(function(elem){%>
       <option name='lang' value='<%=elem.code%>'><%=elem.langName%></option>
     <%})%>
-  </select><br  />
-  <label>What do you want to translate it to</label>
-  <select class="langTrans form-control" name="langTrans">
+    </select><br  />
+    <label>What do you want to translate it to</label>
+    <select class="langTrans form-control" name="langTrans">
     <% language.forEach(function(elem){%>
       <option class='langTrans' value='<%=elem.code%>'><%=elem.langName%></option>
     <%})%>
-  </select>
-
-<!-- <div class='file-field input-field'><div class='btn'><span>Take a Picture</span> -->
-  <input type="file" id="cameraInput" name="cameraInput" accept="image/*" capture='camera'/>
-<!-- </div>
-</div></div> -->
-<div class="progress">
+    </select>
+    <div class="file-field input-field">
+      <div class="btn">
+        <span>Take Picture</span>
+        <input type="file" id="cameraInput" name="cameraInput" accept="image/*" capture='camera' />
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+  <div class="progress">
       <div class="indeterminate"></div>
   </div>
 
-<div class='thumbnail canvas embed-responsive embed-responsive-16by9'><canvas class="embed-responsive-item" id="imageCanvas"></canvas></div>
-<div class='btnPos'><button id="startButton" class="btn">Submit</button></div>
- <!-- <h5 class="col s12">You select : {{getValue}}</h5> -->
+  <div class='thumbnail canvas embed-responsive embed-responsive-16by9'><canvas class="embed-responsive-item" id="imageCanvas"></canvas></div>
+  <div class='btnPos'><button id="startButton" class="btn">Submit</button></div>
+ </div>
  </div>
 <script>
 
@@ -70,7 +74,7 @@ var langTrans
 // });
 //
 
-var imageLoader = document.getElementById('camerInput');
+var imageLoader = document.getElementById('cameraInput');
     imageLoader.addEventListener('change', handleImage, false);
 var canvas = document.getElementById('imageCanvas');
 var ctx = canvas.getContext('2d');

@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 // create a schema
 const languageSchema = new mongoose.Schema({
   langName: {type: String},
-  code: {type: String}
+  code: {type: String},
+  ttsCode: {type: String}
 });
 
 const Language = mongoose.model('Language', languageSchema);
