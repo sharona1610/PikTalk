@@ -3,6 +3,8 @@ var http= require('http')
 var express = require('express')
 var mongoose = require('mongoose')
 var app = express();
+var device = require('express-device');
+app.use(device.capture());
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
@@ -28,7 +30,6 @@ var storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage });
 var Model = require('./models/model')
-var MobileDetect = require('mobile-detect')
 var Language = require('./models/language')
 var cloudinary = require('cloudinary');
 
@@ -66,15 +67,14 @@ app.get('/', function(req, res) {
 });
 app.get('/query/', isLoggedIn, function(req,res){
   Language.find({}, function(err, lang){
-    var md = new MobileDetect(req.headers['user-agent']);
-    console.log(md.mobile())
-    if(md.mobile()!==null || md.tablet()!==null){
-      res.render('query/mobile', {language: lang})
-    }
-    else{
-      console.log('here');
-      res.render('query/index', {language: lang});
-    }
+    var md=req.device.type
+    // if(md.mobile()!==null || md.tablet()!==null){
+      res.render('query/mobile', {language: lang, dev: md})
+    // }
+    // else{
+    //   console.log('here');
+      // res.render('query/index', {language: lang});
+    // }
   })
 })
 app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
