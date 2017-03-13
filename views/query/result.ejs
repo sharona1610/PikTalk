@@ -30,7 +30,8 @@
       <div class="center">
         <% var temp = model.imageUrl
         var str = temp.slice(7)
-        str= 'http://localhost:3000'+str %>
+        <!-- str= 'http://localhost:3000'+str %> -->
+        str='https://piktalk.herokuapp.com'+str %>
         <img class='responsive-img' src="<%=str%>" >
       </div>
     </div>

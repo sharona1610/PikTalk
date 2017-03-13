@@ -31,7 +31,8 @@
       <div class="card hoverable width">
 <% var temp = model[i].imageUrl
 var str = temp.slice(7)
-str= 'http://localhost:3000'+str %>
+<!-- str= 'http://localhost:3000'+str %> -->
+str='https://piktalk.herokuapp.com'+str %>
 <div class='card-image'>
   <img class="" src="<%=str%>" alt="My_Logo"></div>
       <div class="card-content">
