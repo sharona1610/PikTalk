@@ -5,7 +5,6 @@
 }
 body{
   font-family: 'Josefin Sans', sans-serif;
-  margin: 10%;
   background: url('http://www.1designshop.com/wp-content/uploads/2015/12/1dsp-20151221-backgroung007.png') no-repeat center center fixed;
   -webkit-background-size: cover;
 -moz-background-size: cover;
@@ -53,9 +52,19 @@ table{
 }
 .right{
   color: white;
-  padding: 10px;
-
+  margin-right: 5%;
+  font-size: 1.5em;
 }
 nav{
   background: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+.contain {
+     position: absolute;
+     width: 50%;
+     left: 50%;
+     top: 50%;
+     transform: translate(-50%, -50%);
 }

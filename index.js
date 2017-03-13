@@ -66,15 +66,15 @@ app.get('/', function(req, res) {
 });
 app.get('/query/', isLoggedIn, function(req,res){
   Language.find({}, function(err, lang){
-    // var md = new MobileDetect(req.headers['user-agent']);
-    // console.log(md.mobile())
-    // if(md.mobile()!==null || md.tablet()!==null){
+    var md = new MobileDetect(req.headers['user-agent']);
+    console.log(md.mobile())
+    if(md.mobile()!==null || md.tablet()!==null){
       res.render('query/mobile', {language: lang})
-    // }
-    // else{
-    //   console.log('here');
-      // res.render('query/index', {language: lang});
-    // }
+    }
+    else{
+      console.log('here');
+      res.render('query/index', {language: lang});
+    }
   })
 })
 app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
