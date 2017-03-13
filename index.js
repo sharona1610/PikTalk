@@ -67,14 +67,14 @@ app.get('/', function(req, res) {
 });
 app.get('/query/', isLoggedIn, function(req,res){
   Language.find({}, function(err, lang){
-    var md=req.device.type
-    if(md==='mobile' || md==='tablet'){
-      res.render('query/mobile', {language: lang, dev:md})
-    }
-    else{
-      console.log('here');
-      res.render('query/index', {language: lang});
-    }
+    // var md=req.device.type
+    // if(md==='mobile' || md==='tablet'){
+      res.render('query/mobile', {language: lang})
+    // }
+    // else{
+    //   console.log('here');
+    //   res.render('query/index', {language: lang});
+    // }
   })
 })
 app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
