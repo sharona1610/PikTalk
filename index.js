@@ -60,7 +60,11 @@ app.use(function(req, res, next) {
   res.locals.currentUser = req.user;
   next();
 });
-
+cloudinary.config({
+    cloud_name: 'sharona',
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
 
 app.get('/', function(req, res) {
   res.redirect('auth/login');
@@ -98,15 +102,23 @@ app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
       keyFilename: './final-project-trial-64f345daee86.json',
       languageHints: [req.body.lang]
     });
+    var temp = './views/images/'+req.file.filename
+    console.log(temp);
+
+    cloudinary.uploader.upload(temp, function(result) {
+  console.log(result)
+
+
+
     var options=
     {
       "imageContext":{
         "languageHints": [req.body.lang]
       }
     }
-    var temp = './views/images/'+req.file.filename
-    console.log(temp);
-    visionClient.detectText(temp).then((results) => {
+    // var temp = './views/images/'+req.file.filename
+    // console.log(temp);
+    visionClient.detectText(result.url).then((results) => {
       const detections = results[0]
       console.log(detections);
       if(results!==null){
@@ -142,6 +154,7 @@ app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
     }
     })
 })
+});
 
 app.get('/query/result/', function(req, res){
   console.log('entered');
