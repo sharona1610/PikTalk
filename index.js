@@ -129,7 +129,7 @@ app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
             if(!err){
               console.log(lang)
               Model.create({
-              imageUrl: temp,
+              imageUrl: result.url,
               ttsCode: lang.ttsCode,
               textDetect: detections[0],
               textTranslate: translation[0],
