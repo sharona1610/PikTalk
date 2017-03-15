@@ -15,7 +15,7 @@ var storage = multer.diskStorage({
   }
 })
 var upload = multer({ storage: storage });
-var Model = require('../models/model')
+var Text = require('../models/text')
 var MobileDetect = require('mobile-detect')
 var Language = require('../models/language')
 var cloudinary = require('cloudinary');

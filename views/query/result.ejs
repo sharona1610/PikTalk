@@ -28,7 +28,7 @@
   <div class='contain'>
     <div class="">
       <div class="center">
-        <img class='responsive-img' src="<%=model.imageUrl%>" >
+        <img class='responsive-img' src="<%=text.imageUrl%>" >
       </div>
     </div>
   <table>
@@ -39,7 +39,7 @@
     </thead>
     <tbody>
       <tr>
-        <th><%=model.textDetect %></th>
+        <th><%=text.textDetect %></th>
       </tr>
     </tbody>
   </table>
@@ -51,14 +51,15 @@
     </thead>
     <tbody>
       <tr>
-        <th><%=model.textTranslate %></th>
+        <th><%=text.textTranslate %></th>
       </tr>
     </tbody>
   </table>
 </div>
-<% var hello = model.textDetect
-<!-- var code = model.ttsCode -->
-var source = 'http://api.voicerss.org/?key=f4b8cbcf08304aeeb2dc6ff5f527e4f5&hl=de-de&src='+hello%>
+<% var hello = text.textDetect
+var code = text.ttsCode
+console.log(code)
+var source = 'http://api.voicerss.org/?key=f4b8cbcf08304aeeb2dc6ff5f527e4f5&hl='+code+'&src='+hello%>
   <video controls='true' src='<%=source%>' type='audio/*'></video>
 </body>
 </html>

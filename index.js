@@ -8,7 +8,7 @@ app.use(device.capture());
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
-var Model = require('./models/model')
+var Text = require('./models/text')
 var passport = require('./config/ppConfig');
 var multer = require('multer');
 var upload = multer({ dest: './uploads/' });
@@ -24,12 +24,11 @@ var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './views/images/')
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '.jpg') //Appending .jpg
-  }
+  // filename: function (req, file, cb) {
+  //   cb(null, Date.now() + '.jpg') //Appending .jpg
+  // }
 })
 var upload = multer({ storage: storage });
-var Model = require('./models/model')
 var Language = require('./models/language')
 var cloudinary = require('cloudinary');
 
@@ -81,8 +80,10 @@ app.get('/query/', isLoggedIn, function(req,res){
     // }
   })
 })
+
 app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
   console.log(req.body);
+  console.log(req.file);
     var projectId = "final-project-trial"
     var gcloud = require('google-cloud')({
       projectId: projectId,
@@ -108,8 +109,6 @@ app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
     cloudinary.uploader.upload(temp, function(result) {
   console.log(result)
 
-
-
     var options=
     {
       "imageContext":{
@@ -125,21 +124,21 @@ app.post('/query/', upload.single('myFile'), isLoggedIn, function(req, res){
       translateClient.translate(detections, req.body.langTrans, function(err, translation) {
         if (!err) {
           console.log('translated is ', translation);
-          Language.find({code: req.body.langTrans}, function(err, lang){
+          Language.find({code: req.body.lang}, function(err, lang){
             if(!err){
               console.log(lang)
-              Model.create({
+              Text.create({
               imageUrl: result.url,
               ttsCode: lang.ttsCode,
               textDetect: detections[0],
               textTranslate: translation[0],
-              user_id: req.user._id}, function(err, model){
+              user_id: req.user._id}, function(err, text){
                   if(err) {
                     console.log(err);
                     return
                   }
-                    console.log('model is ', model);
-                    res.send(model._id)
+                    console.log('text is ', text);
+                    res.send(text._id)
 
                 })
               }
@@ -160,17 +159,17 @@ app.get('/query/result/', function(req, res){
   console.log('entered');
   var str = req.query.id.replace(/["]+/g, '');
   console.log(str);
-  Model.findById(str, function(err, model){
-    console.log('model in get result is ', model);
-      res.render('query/result', {model: model})
+  Text.findById(str, function(err, text){
+    console.log('text in get result is ', text);
+      res.render('query/result', {text: text})
   })
 })
 
 app.get('/query/history', isLoggedIn, function(req,res){
-  Model.find({user_id: req.user._id}, function(err, model){
+  Text.find({user_id: req.user._id}, function(err, text){
     if(err) console.log(err);
-    if(model.length>0){
-      res.render('query/history', {model: model})
+    if(text.length>0){
+      res.render('query/history', {text: text})
     }
 })
 })

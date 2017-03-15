@@ -23,18 +23,18 @@
       <a href="/query/history" class="right">View History</a>
     </div>
   </nav>
-<% if(model.length>0){%>
+<% if(text.length>0){%>
 <div class="pos">
 
-    <% for(var i=0; i<model.length; i++){ %>
+    <% for(var i=0; i<text.length; i++){ %>
   <ul>
       <div class="card hoverable width">
 
 <div class='card-image'>
-  <img class="" src="<%=model[i].imageUrl%>" alt="My_Logo"></div>
+  <img class="" src="<%=text[i].imageUrl%>" alt="My_Logo"></div>
       <div class="card-content">
-        <strong>Detected Text :</strong> <%=model[i].textDetect %><br />
-      <strong>Translated Text </strong><%=model[i].textTranslate %>
+        <strong>Detected Text :</strong> <%=text[i].textDetect %><br />
+      <strong>Translated Text </strong><%=text[i].textTranslate %>
     </div>
 
       </div>

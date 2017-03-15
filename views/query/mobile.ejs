@@ -139,12 +139,14 @@ document.getElementById("startButton").addEventListener("click", function() {
        }
      })
    }
-   var fileOfBlob = new File([makeblob(dataURL)], 'aFileName.json');
+  //  var fileOfBlob = new File([makeblob(dataURL)], 'aFileName.json');
    var lang = $('.lang').val()
    console.log(lang)
    var langTrans = $('.langTrans').val()
    console.log(langTrans)
-   form.append("myFile", fileOfBlob);
+   console.log(makeblob(dataURL))
+  //  form.append("myFile", fileOfBlob);
+   form.append("myFile", makeblob(dataURL));
    form.append("lang", lang);
    form.append('langTrans', langTrans)
    request.open(
